@@ -29,15 +29,15 @@ ssh_hosts = Array.new
 search_string = "ossec:[* TO *] (NOT role:#{node['ossec']['server_role']})"
 search_string << " AND (chef_environment:#{node['ossec']['server_env']})" if node['ossec']['server_env']
 
-#search(:node, search_string) do |n|
+search(:node, search_string) do |n|
 
-  #ssh_hosts << n['ipaddress'] if n['keys']
+  ssh_hosts << n['ipaddress'] if n['keys']
 
-  #execute "#{agent_manager} -a --ip #{n['ipaddress']} -n #{n['fqdn'][0..31]}" do
-    #not_if "grep '#{n['fqdn'][0..31]} #{n['ipaddress']}' #{node['ossec']['user']['dir']}/etc/client.keys"
-  #end
+  execute "#{agent_manager} -a --ip #{n['ipaddress']} -n #{n['fqdn'][0..31]}" do
+    not_if "grep '#{n['fqdn'][0..31]} #{n['ipaddress']}' #{node['ossec']['user']['dir']}/etc/client.keys"
+  end
 
-#end
+end
 
 template "/usr/local/bin/dist-ossec-keys.sh" do
   source "dist-ossec-keys.sh.erb"
