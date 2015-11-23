@@ -27,3 +27,4 @@ attribute 'build-essential/compile_time',
   description: 'Execute resources at compile time.',
   default: 'false',
   recipes: ['build-essential::default']
+
